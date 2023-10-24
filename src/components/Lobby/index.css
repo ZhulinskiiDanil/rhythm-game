@@ -1,0 +1,109 @@
+.levels {
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  gap: 1rem;
+
+  box-sizing: content-box;
+  background: #222;
+}
+
+.levels.hidden {
+  display: none;
+}
+
+.levels .level {
+  --bg: 
+    radial-gradient(
+      farthest-side at bottom left,
+      rgba(255, 0, 242, 0.5), 
+      transparent
+    ),
+    radial-gradient(
+      farthest-side at left top,
+      rgba(125, 56, 255, 0.5), 
+      transparent
+    ),
+    radial-gradient(
+      farthest-side at right top,
+      rgba(255, 48, 193, 0.5), 
+      transparent
+    ),
+    radial-gradient(
+      farthest-corner at bottom right,
+      rgba(255, 68, 68, 0.5), 
+      transparent 400px
+    );
+
+  z-index: 0;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+  
+  background: var(--bg);
+  color: white;
+  border-radius: 1rem;
+  
+  width: 100%;
+  max-width: 600px;
+  transition: .15s ease;
+  cursor: pointer;
+}
+
+.levels .level:hover {
+  transform: scale(.98);
+}
+
+.levels .level:hover::after {
+  opacity: 1;
+}
+
+.levels .level::after {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(20px);
+  background: var(--bg);
+  opacity: 0;
+  transition: .15s ease;
+}
+
+
+.levels .level .data {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.levels .level .data .title {
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+.levels .level .duration {
+  font-size: 1rem;
+  font-weight: 300;
+  opacity: .5;
+}
+
+.levels .level .data .percent {
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: .5;
+}

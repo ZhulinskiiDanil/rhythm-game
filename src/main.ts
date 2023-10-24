@@ -1,19 +1,12 @@
 import '@/style.css';
 import { Scene } from '@/scene';
-import { useDispatch } from '@/hooks/useDispatch';
-import { levelActions } from './store';
+import { App } from './components/App';
 
-// Levels
-import { yoasobiIdol } from './levels';
-
+new App().init()
 const scene = new Scene()
-const dispatch = useDispatch()
 
-dispatch(levelActions.setLevel({ level: yoasobiIdol }))
-
-loop()
 function loop() {
-  scene.draw()
-  
-  requestAnimationFrame(loop)
-}
+  scene.draw();
+
+  requestAnimationFrame(loop);
+}; loop();
