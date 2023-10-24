@@ -106,8 +106,8 @@ export class Gameplay extends MainEntitie {
         }
   
         setTimeout(() => {
-          document.addEventListener('keydown', () => this.restart(), { once: true })
-          document.addEventListener('mousedown', () => this.restart(), { once: true })
+          document.addEventListener('keydown', this.restart.bind(this), { once: true })
+          document.addEventListener('mousedown', this.restart.bind(this), { once: true })
         }, 1500)
       }
     })
@@ -150,23 +150,22 @@ export class Gameplay extends MainEntitie {
   }
 
   restart() {
-    this.pressedKeys = 0
-
     if (this.song && !this.isPlayed) {
-      this.play()
       this.song.currentTime = 0
 
       requestAnimationFrame(() => {
-        this.isLose = false
-        this.isPlayed = true
+        requestAnimationFrame(() => {
+          this.isLose = false
+          this.play()
+        })
       })
     }
   }
 
-  play() {
+  play(fromZero?: boolean) {
     this.pressedKeys = 0
     
-    if (this.level && !this.isPlayed) {
+    if (this.level && !this.isPlayed && !this.isLose) {
       this.controller.ignorePressing = false
       this.isPlayed = true
   
@@ -175,6 +174,10 @@ export class Gameplay extends MainEntitie {
   
       if (this.song) {
         this.song.play()
+
+        if (fromZero) {
+          this.song.currentTime = 0
+        }
   
         const mousedown = () => console.log(this.song?.currentTime)
         document.addEventListener("mousedown", mousedown)
