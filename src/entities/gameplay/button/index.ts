@@ -92,7 +92,10 @@ export class Button extends MainEntitie {
   }
 
   collision() {
-    if (this.height + this.y > canvas.height && !this.isPressed) {
+    const isValidButton = this.data.column > 0 &&
+      this.data.column <= (this.level?.columns || 0)
+
+    if (isValidButton && this.height + this.y > canvas.height && !this.isPressed) {
       eventEmitter.emit('lose')
     }
   }
