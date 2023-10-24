@@ -13,6 +13,30 @@ export class GameInterface extends MainEntitie {
   keysCount = 0
   pressedKeys = 0
   font = { size: 16 }
+  FPS = 0
+  initAt = new Date()
+  completedFrames = 0
+  levelDuration = 0
+
+  constructor() {
+    super();
+
+    this.initAt = new Date()
+    setInterval(this.calcFPS.bind(this), 1000/60)
+
+    const loop = () => {
+      this.completedFrames++
+
+      requestAnimationFrame(loop.bind(this))
+    }; loop()
+  }
+
+  calcFPS() {
+    const dateDiff = +new Date() - +this.initAt
+    this.FPS = Math.floor(
+      this.completedFrames / dateDiff * 1000 * 10
+    ) / 10
+  }
 
   setKeysCount(n: number) {
     this.keysCount = n
@@ -28,6 +52,10 @@ export class GameInterface extends MainEntitie {
 
   setLevel(level: Level) {
     this.level = level
+
+    this.levelDuration = this.level.buttons.reduce((acc, btn) => {
+      return acc < btn.fromSecond ? btn.fromSecond : acc
+    }, 0)
   }
 
   setCombo(combo: number) {
@@ -39,14 +67,35 @@ export class GameInterface extends MainEntitie {
   }
 
   draw() {
-    const duration = this.getDuration()
-
     this.drawShadow()
     this.initHeadTexts()
     this.drawHeadText('Pressed: ' + this.pressedKeys + '/' + this.keysCount)
     this.drawHeadText('Max combo: ' + this.maxCombo)
     this.drawHeadText('Combo: ' + this.combo)
-    this.drawHeadText(duration + 's')
+    this.drawHeadText(this.FPS + ' FPS')
+    this.drawProgressLine()
+  }
+
+  drawProgressLine() {
+    const currentTime = this.song?.currentTime || 0
+    const levelDuration = this.levelDuration || 0
+
+    if (currentTime > 0) {
+      const progress = currentTime / levelDuration
+      const w = canvas.width * progress
+      const h = canvas.height * .01
+      
+      ctx.save()
+
+      ctx.filter = 'blur(2px)'
+      ctx.fillRect(0, 0, canvas.width * progress, 10)
+
+      ctx.filter = 'blur(0px)'
+      ctx.fillStyle = 'orange'
+      ctx.fillRect(0, 0, w, h)
+
+      ctx.restore()
+    }
   }
 
   getDuration() {
