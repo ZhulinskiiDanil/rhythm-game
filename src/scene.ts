@@ -6,6 +6,17 @@ export class Scene {
   background = new Background()
   gameplay = new Gameplay()
 
+  constructor() {
+    document.addEventListener('keydown', this.playLevel.bind(this))
+    document.addEventListener('mousedown', this.playLevel.bind(this))
+  }
+
+  playLevel() {
+    if (!this.gameplay.isPlayed && this.gameplay.song) {
+      this.gameplay.play()
+    }
+  }
+
   draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     

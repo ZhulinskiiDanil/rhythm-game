@@ -1,3 +1,4 @@
+import { useSelector } from './../../hooks/useSelector';
 import { MainEntitie } from "@/entities/main"
 import { canvas, ctx } from "@/canvas"
 import eventEmitter from "@/eventEmitter";
@@ -146,9 +147,6 @@ export class Gameplay extends MainEntitie {
         }
       }
     })
-
-    document.addEventListener('keydown', () => this.play(), { once: true })
-    document.addEventListener('mousedown', () => this.play(), { once: true })
   }
 
   restart() {
@@ -214,6 +212,9 @@ export class Gameplay extends MainEntitie {
   }
 
   draw() {
+    const lobbyIsActive = useSelector(state => state.lobby.isActive)
+    if (lobbyIsActive) return
+
     if (this.level) {
       ctx.save()
       ctx.fillStyle = 'white'
