@@ -5,6 +5,7 @@ export type LevelButton = {
 }
 
 export type Level = {
+  name: string
   columns: number
   songPath: string
   ignoreLose?: boolean

@@ -1,2 +1,3 @@
 export * from './yoasobiIdol'
-export * from './yoasobildol_2'
+export * from './yoasobiIdolRandom'
+export * from './SIDODGI_DUBOSHIT_808_PROBLEM'

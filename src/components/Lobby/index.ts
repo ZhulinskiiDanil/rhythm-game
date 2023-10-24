@@ -9,10 +9,7 @@ import { useDispatch } from '@/hooks/useDispatch'
 import { levelActions } from '@/store'
 
 const dispatch = useDispatch()
-const levelsList = Object.entries(levels).map(level => ({
-  name: level[0] as keyof typeof levels,
-  data: level[1]
-}))
+const levelsList = Object.entries(levels).map(level => level[1])
 
 export class LevelComponent {
   title: string = ''
@@ -85,12 +82,10 @@ export class Lobby {
     const levelsToRender = levelsList.map(level => (
       new LevelComponent({
         title: level.name,
-        data: level.data,
+        data: level,
         percent: 0,
         onClick: () => {
-          dispatch(levelActions.setLevel({
-            level: levels[level.name]
-          }))
+          dispatch(levelActions.setLevel({ level }))
 
           this.hide()
         }

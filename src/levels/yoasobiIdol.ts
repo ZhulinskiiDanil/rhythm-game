@@ -248,6 +248,7 @@ const buttons: Level["buttons"] = [
 ]
 
 export const yoasobiIdol: Level = {
+  name: 'Yoasobi Idol',
   columns: 4,
   songPath: '/tracks/yoasobi-idol.mp3',
   speed: 2.5,

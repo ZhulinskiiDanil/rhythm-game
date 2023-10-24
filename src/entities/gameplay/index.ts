@@ -18,11 +18,13 @@ import { GameInterface } from "./gameInterface";
 import { ControllerButtonData } from "./controller/types";
 
 export class Gameplay extends MainEntitie {
+  initAt = new Date()
   columnsEffects: {
     [key: string]: {
       type: 'error' | 'success'
       columnNumber: number
       opacity: number
+      KDPS: number
     }
   } = {}
   errors: {
@@ -39,6 +41,10 @@ export class Gameplay extends MainEntitie {
   combo: number = 0
   buttons: Button[] = []
   pressedKeys: number = 0
+  
+  countKDPSAt = new Date()
+  keydownCount = 0
+  KDPS = 0
 
   isPlayed: boolean = false
   isLose: boolean = false
@@ -47,6 +53,15 @@ export class Gameplay extends MainEntitie {
     super();
     withFullHeight(this)
     withFullWidth(this)
+
+    const loop = () => {
+      const initDiff = +new Date() - +(this.countKDPSAt)
+      this.KDPS = 1000 / (initDiff / this.keydownCount)
+      
+      requestAnimationFrame(loop.bind(this))
+    }
+
+    loop()
 
     this.initListeners()
   }
@@ -115,6 +130,7 @@ export class Gameplay extends MainEntitie {
     })
 
     eventEmitter.on('controllerSuccessKeyDown', (columnNumber: number) => {
+      this.updateKeydownCounter()
       this.addColumnEffect(columnNumber, 'success')
 
       this.gameInterface.setPressedKeys(++this.pressedKeys)
@@ -147,10 +163,6 @@ export class Gameplay extends MainEntitie {
   }
 
   restart() {
-    this.combo = 0
-    this.gameInterface.setCombo(this.combo)
-    this.gameInterface.setPressedKeys(0)
-
     if (this.song && !this.isPlayed) {
       this.song.currentTime = 0
 
@@ -164,6 +176,12 @@ export class Gameplay extends MainEntitie {
   }
 
   play(fromZero?: boolean) {
+    this.combo = 0
+    this.KDPS = 0
+    this.keydownCount = 0
+    this.countKDPSAt = new Date()
+    this.gameInterface.setCombo(this.combo)
+    this.gameInterface.setPressedKeys(0)
     this.pressedKeys = 0
     
     if (this.level && !this.isPlayed && !this.isLose) {
@@ -202,8 +220,10 @@ export class Gameplay extends MainEntitie {
     const columnsEffect = {
       type: type,
       columnNumber,
-      opacity: 1
+      opacity: 1,
+      KDPS: this.KDPS
     }
+
     this.columnsEffects[columnNumber] = columnsEffect
     
     getSmoothValue(({ value }) => {
@@ -213,6 +233,10 @@ export class Gameplay extends MainEntitie {
       timingFunction: 'ease',
       duration: 1000
     })
+  }
+
+  updateKeydownCounter() {
+    this.keydownCount++
   }
 
   draw() {
@@ -265,17 +289,23 @@ export class Gameplay extends MainEntitie {
 
         if (effect.type === 'error') {
           const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-          gradient.addColorStop(0, "rgba(255, 118, 94, 0)");
+          gradient.addColorStop(0, "transparent");
           gradient.addColorStop(1, "rgba(255, 118, 94, 1)");
 
           ctx.fillStyle = gradient
         } else {
           const gradient = ctx.createLinearGradient(0, y, 0, y + h);
-          gradient.addColorStop(0, "transparent");
-          gradient.addColorStop(1, "rgba(152, 235, 52, .5)");
+          
+          if (effect.KDPS > 4) {
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(1, "rgba(160, 92, 255, .5)");
+          } else {
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(1, "rgba(152, 235, 52, .5)");
+          }
+
           ctx.fillStyle = gradient
           ctx.filter = `blur(${20 - 20 * effect.opacity}px)`
-          ctx.fillStyle = 'rgba(152, 235, 52, .2)'
         }
 
         ctx.fillRect(x, y, w, h)
