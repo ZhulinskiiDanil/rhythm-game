@@ -333,7 +333,7 @@ export const yoasobiIdol_2: Level = {
   columns: 4,
   songPath: '/tracks/yoasobi-idol.mp3',
   speed: 1.5,
-  ignoreLose: true,
+  ignoreLose: false,
   startFrom: 0,
   buttons
 }
