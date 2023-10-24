@@ -78,9 +78,6 @@ export class Gameplay extends MainEntitie {
         this.controller.ignorePressing = true
         this.isPlayed = false
         this.isLose = true
-
-        this.combo = 0
-        this.gameInterface.setCombo(this.combo)
         
         if (this.song) {
           this.song.pause()
@@ -150,6 +147,10 @@ export class Gameplay extends MainEntitie {
   }
 
   restart() {
+    this.combo = 0
+    this.gameInterface.setCombo(this.combo)
+    this.gameInterface.setPressedKeys(0)
+
     if (this.song && !this.isPlayed) {
       this.song.currentTime = 0
 
