@@ -1,7 +1,5 @@
 import { Level } from "@/types";
 
-const randomColumn = () => Math.floor(Math.random() * 4) + 1
-
 const buttons: Level['buttons'] = [
   { type: 'normal', fromSecond: 0.540703, column: 3 },
   { type: 'normal', fromSecond: 0.618212, column: 3 },
