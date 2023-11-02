@@ -171,8 +171,26 @@ export const PSYQUI_1: Level = {
   name: 'PSYQUI - ヒステリックナイトガール',
   columns: 4,
   songPath: '/tracks/PSYQUI - ヒステリックナイトガール (Awakening) (ft. SUCH).mp3',
-  speed: 2.5,
+  speed: 3,
   ignoreLose: false,
   startFrom: 54.50, // 54.50
-  buttons
+  buttons,
+  events: [
+    {
+      fromSecond: 54.50,
+      speed: .5,
+      transition: {
+        duration: 2830,
+        timingFunction: "ease"
+      }
+    },
+    {
+      fromSecond: 57.33,
+      speed: 3,
+      transition: {
+        duration: 500,
+        timingFunction: "ease"
+      }
+    }
+  ]
 }

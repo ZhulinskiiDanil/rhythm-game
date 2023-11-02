@@ -1,3 +1,4 @@
+import { LevelEvent } from './../../types/all/level';
 import { useSelector } from './../../hooks/useSelector';
 import { MainEntitie } from "@/entities/main"
 import { canvas, ctx } from "@/canvas"
@@ -19,6 +20,8 @@ import { ControllerButtonData } from "./controller/types";
 
 export class Gameplay extends MainEntitie {
   initAt = new Date()
+  nextEventIndex = 0
+  lastEventStopTransitionFn: null | (() => void) = null
   columnsEffects: {
     [key: string]: {
       type: 'error' | 'success'
@@ -68,7 +71,7 @@ export class Gameplay extends MainEntitie {
 
   initListeners() {
     eventEmitter.on('level', (newLevel: Level) => {
-      this.level = newLevel
+      this.level = {...newLevel}
       this.gameInterface.setKeysCount(newLevel.buttons.length)
 
       if (newLevel) {
@@ -208,6 +211,56 @@ export class Gameplay extends MainEntitie {
     }
   }
 
+  getNextEvent() {
+    const events = this.level?.events || []
+
+    return events[this.nextEventIndex]
+  }
+
+  handleEvents() {
+    const nextEvent = this.getNextEvent()
+    const currentTime = this.song?.currentTime
+
+    if (nextEvent && currentTime) {
+      const { fromSecond } = nextEvent
+      
+      if (currentTime > fromSecond) {
+        if (this.lastEventStopTransitionFn) {
+          this.lastEventStopTransitionFn()
+        }
+
+        this.nextEventIndex++
+        this.handleEvent(nextEvent)
+      }
+    }
+  }
+
+  handleEvent(event: LevelEvent) {
+    const level = this.level
+
+    if (event?.speed && level?.speed) {
+      if (event.transition) {
+        const { stopCalculate } = getSmoothValue(({ value }) => {
+          this.setSpeed(value)
+          eventEmitter.emit('speed', value)
+        }, {
+          ...event.transition,
+          fromTo: [level.speed, event.speed]
+        })
+
+        this.lastEventStopTransitionFn = stopCalculate
+      } else {
+        level.speed = event.speed
+      }
+    }
+  }
+
+  setSpeed(speed: number) {
+    if (this.level) {
+      this.level.speed = speed
+    }
+  }
+
   setCombo(combo: number) {
     this.combo = combo
     this.gameInterface.setCombo(combo)
@@ -242,6 +295,8 @@ export class Gameplay extends MainEntitie {
   draw() {
     const lobbyIsActive = useSelector(state => state.lobby.isActive)
     if (lobbyIsActive) return
+
+    this.handleEvents()
 
     if (this.level) {
       ctx.save()

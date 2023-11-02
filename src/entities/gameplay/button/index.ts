@@ -14,7 +14,11 @@ export class Button extends MainEntitie {
   isHolded: boolean = false
   holdedTime: number  = 0
   pressedAt: number = 0
-  level: Level | null = store.getState().level.data || null
+  level: Level | null = useSelector(state => {
+    if (state.level.data) {
+      return {...state.level.data}
+    } else return null
+  })
   data: LevelButton
   song: HTMLAudioElement | null = null
   fillStyle = '#ff8845'
@@ -25,6 +29,12 @@ export class Button extends MainEntitie {
     super();
     this.data = data
     this.paddingBottomVh = paddingBottomVh
+
+    eventEmitter.on('speed', (speed: number) => {
+      if (this.level) {
+        this.level.speed = speed
+      }
+    })
 
     document.addEventListener('keyup', (e: KeyboardEvent) => {
       const controllerKey = this.controllers[this.data.column - 1]
@@ -46,7 +56,7 @@ export class Button extends MainEntitie {
     eventEmitter.on('play', this.restore.bind(this))
 
     eventEmitter.on('level', (newLevel: Level) => {
-      this.level = newLevel
+      this.level = {...newLevel}
     })
   }
 
