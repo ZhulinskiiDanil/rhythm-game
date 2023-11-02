@@ -5,7 +5,6 @@ import { canvas, ctx } from "@/canvas"
 // Methods
 import { Level, LevelButton } from "@/types";
 import eventEmitter from "@/eventEmitter";
-import { store } from "@/store";
 import { getSmoothValue } from "@/common/funcs/getSmoothValue";
 
 export class Button extends MainEntitie {
