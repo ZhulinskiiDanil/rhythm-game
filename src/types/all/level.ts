@@ -1,7 +1,8 @@
 export type LevelButton = {
   fromSecond: number
+  toSecond?: number
   column: number
-  type: 'normal'
+  type: 'normal' | 'hold'
 }
 
 export type Level = {

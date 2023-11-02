@@ -1,3 +1,4 @@
+import { useSelector } from './../../../hooks/useSelector';
 import { canvas, ctx } from "@/canvas";
 import { MainEntitie } from "@/entities/main";
 import { Level } from "@/types";
@@ -7,10 +8,8 @@ import eventEmitter from "@/eventEmitter";
 export class Controller extends MainEntitie {
   vh: number = 0
   controllerY: number = 0
-  controlkeys = [
-    "KeyD", "KeyF", "KeyJ", "KeyK"
-  ] as const
-  pressedKey: null | typeof this.controlkeys[number] = null
+  controlkeys = useSelector(state => state.settings.controllers)
+  pressedKey: (typeof this.controlkeys[number] | null)[] = []
   level: null | Level = null
   ignorePressing: boolean = true
 
@@ -27,8 +26,12 @@ export class Controller extends MainEntitie {
 
       const key = e.code as typeof this.controlkeys[number]
       
-      if (this.controlkeys.includes(key) && this.pressedKey !== key) {
-        this.pressedKey = key
+      if (
+        this.controlkeys.includes(key) &&
+        !this.pressedKey.includes(key)
+      ) {
+        const keyIndex = this.controlkeys.findIndex(_ => _ === key)
+        this.pressedKey[keyIndex] = key
 
         if (this.level) {
           const gap = this.width / this.level.columns
@@ -81,7 +84,8 @@ export class Controller extends MainEntitie {
       const key = e.code as typeof this.controlkeys[number]
 
       if (this.controlkeys.includes(key)) {
-        this.pressedKey = null
+        const keyIndex = this.controlkeys.findIndex(_ => _ === key)
+        this.pressedKey[keyIndex] = null
       }
     })
   }
@@ -112,8 +116,8 @@ export class Controller extends MainEntitie {
         ctx.font = `200 ${fontSize}px sans-serif`
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
-        
-        if (this.pressedKey === this.controlkeys[i]) {
+
+        if (this.pressedKey.includes(this.controlkeys[i])) {
           ctx.globalAlpha = 1
           ctx.fillStyle = 'tomato'
         }
