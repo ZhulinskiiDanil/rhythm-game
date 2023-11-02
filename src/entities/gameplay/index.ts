@@ -147,12 +147,14 @@ export class Gameplay extends MainEntitie {
     eventEmitter.on('controllerKeyDown', (
       data: ControllerButtonData
     ) => {
+      const currentTime = this.song?.currentTime || 0
+
       for (let button of this.buttons) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
         const isVissible = this.y + this.height > 0
   
         if (isCurrentColumn && isVissible) {
-          const topCollision = button.y + button.height > data.y - data.height * 2
+          const topCollision = currentTime + .100 > button.data.fromSecond
           const bottomCollision = button.y < canvas.height
           const collision = topCollision && bottomCollision
 
