@@ -68,6 +68,103 @@ const buttons: Level['buttons'] = [
   { type: 'normal', fromSecond: 74.78, column: 1 },
   { type: 'normal', fromSecond: 74.92, column: 4 },
   { type: 'normal', fromSecond: 75.09, column: 3 },
+
+  { type: 'hold', fromSecond: 75.40, toSecond: 76.40, column: 1 },
+  { type: 'normal', fromSecond: 75.69, column: 4 },
+  { type: 'normal', fromSecond: 75.89, column: 3 },
+  { type: 'normal', fromSecond: 76.07, column: 2 },
+  { type: 'normal', fromSecond: 76.27, column: 3 },
+  { type: 'normal', fromSecond: 76.47, column: 4 },
+  { type: 'normal', fromSecond: 76.67, column: 2 },
+
+  { type: 'hold', fromSecond: 76.89, toSecond: 77.89, column: 4 },
+  { type: 'normal', fromSecond: 77.22, column: 1 },
+  { type: 'normal', fromSecond: 77.44, column: 2 },
+  { type: 'normal', fromSecond: 77.62, column: 3 },
+  { type: 'normal', fromSecond: 77.81, column: 2 },
+  { type: 'normal', fromSecond: 77.99, column: 1 },
+  { type: 'normal', fromSecond: 78.16, column: 3 },
+
+  { type: 'hold', fromSecond: 78.38, toSecond: 79.38, column: 1 },
+  { type: 'normal', fromSecond: 78.70, column: 4 },
+  { type: 'normal', fromSecond: 78.89, column: 3 },
+  { type: 'normal', fromSecond: 79.09, column: 2 },
+  { type: 'normal', fromSecond: 79.26, column: 3 },
+  { type: 'hold', fromSecond: 79.44, toSecond: 80.00, column: 4 },
+
+  { type: 'normal', fromSecond: 79.89, column: 2 },
+  { type: 'normal', fromSecond: 80.27, column: 3 },
+  { type: 'normal', fromSecond: 80.66, column: 2 },
+
+  { type: 'normal', fromSecond: 81.42, column: 2 },
+  { type: 'normal', fromSecond: 81.80, column: 3 },
+  { type: 'normal', fromSecond: 82.18, column: 2 },
+  { type: 'normal', fromSecond: 82.53, column: 2 },
+  { type: 'normal', fromSecond: 82.90, column: 3 },
+
+  { type: 'hold', fromSecond: 83.00, toSecond: 84.00, column: 2 },
+
+  { type: 'normal', fromSecond: 84.41, column: 4 },
+  { type: 'normal', fromSecond: 84.80, column: 3 },
+  { type: 'normal', fromSecond: 85.19, column: 4 },
+  { type: 'normal', fromSecond: 85.57, column: 3 },
+  { type: 'normal', fromSecond: 85.93, column: 1 },
+  { type: 'normal', fromSecond: 86.10, column: 2 },
+  { type: 'normal', fromSecond: 86.20, column: 3 },
+  { type: 'normal', fromSecond: 86.30, column: 2 },
+  { type: 'normal', fromSecond: 86.64, column: 1 },
+  { type: 'normal', fromSecond: 87.06, column: 2 },
+  { type: 'normal', fromSecond: 87.40, column: 3 },
+
+  { type: 'normal', fromSecond: 87.60, column: 1 },
+  { type: 'normal', fromSecond: 87.80, column: 3 },
+
+  { type: 'normal', fromSecond: 87.90, column: 4 },
+  { type: 'normal', fromSecond: 88.00, column: 3 },
+  { type: 'normal', fromSecond: 88.10, column: 2 },
+
+  { type: 'normal', fromSecond: 88.20, column: 1 },
+  { type: 'normal', fromSecond: 88.40, column: 3 },
+
+  { type: 'normal', fromSecond: 88.50, column: 4 },
+  { type: 'normal', fromSecond: 88.60, column: 3 },
+  { type: 'normal', fromSecond: 88.70, column: 2 },
+
+  { type: 'normal', fromSecond: 88.80, column: 1 },
+  { type: 'normal', fromSecond: 89.00, column: 3 },
+
+  { type: 'normal', fromSecond: 89.10, column: 4 },
+  { type: 'normal', fromSecond: 89.20, column: 3 },
+  { type: 'normal', fromSecond: 89.30, column: 2 },
+
+  { type: 'normal', fromSecond: 89.40, column: 1 },
+  { type: 'normal', fromSecond: 89.60, column: 3 },
+
+  { type: 'normal', fromSecond: 89.70, column: 4 },
+  { type: 'normal', fromSecond: 89.80, column: 3 },
+  { type: 'normal', fromSecond: 89.90, column: 2 },
+
+  { type: 'normal', fromSecond: 90.00, column: 1 },
+  
+  { type: 'normal', fromSecond: 90.40, column: 1 },
+  { type: 'normal', fromSecond: 90.40, column: 4 },
+  { type: 'normal', fromSecond: 90.50, column: 2 },
+  { type: 'normal', fromSecond: 90.50, column: 3 },
+  { type: 'normal', fromSecond: 90.60, column: 1 },
+  { type: 'normal', fromSecond: 90.60, column: 4 },
+  { type: 'normal', fromSecond: 90.70, column: 2 },
+  { type: 'normal', fromSecond: 90.70, column: 3 },
+  { type: 'normal', fromSecond: 90.80, column: 1 },
+  { type: 'normal', fromSecond: 90.80, column: 4 },
+  { type: 'normal', fromSecond: 91.00, column: 2 },
+  { type: 'normal', fromSecond: 91.00, column: 3 },
+  { type: 'normal', fromSecond: 91.10, column: 1 },
+  { type: 'normal', fromSecond: 91.10, column: 4 },
+  { type: 'normal', fromSecond: 91.20, column: 2 },
+  { type: 'normal', fromSecond: 91.20, column: 3 },
+
+  { type: 'hold', fromSecond: 91.50, toSecond: 93.00, column: 2 },
+  { type: 'hold', fromSecond: 91.50, toSecond: 93.00, column: 3 },
 ];
 
 export const PSYQUI_1: Level = {
@@ -76,6 +173,6 @@ export const PSYQUI_1: Level = {
   songPath: '/tracks/PSYQUI - ヒステリックナイトガール (Awakening) (ft. SUCH).mp3',
   speed: 2.5,
   ignoreLose: false,
-  startFrom: 57,
+  startFrom: 54.50, // 54.50
   buttons
 }
