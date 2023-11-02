@@ -37,9 +37,11 @@ export class LevelComponent {
     level.addEventListener('click', this.onClick)
     level.classList.add('level')
 
-    const levelDuration = this.data?.buttons.reduce((acc, btn) => (
-      btn.fromSecond > acc ? btn.fromSecond : acc
-    ), 0) || 0
+    const levelDuration = (
+      this.data?.buttons.reduce((acc, btn) => (
+        btn.fromSecond > acc ? btn.fromSecond : acc
+      ), 0) || 0
+    ) - (this.data?.startFrom || 0)
 
     level.innerHTML = `
       <div class="data">

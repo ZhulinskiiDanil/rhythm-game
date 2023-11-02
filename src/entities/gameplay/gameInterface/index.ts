@@ -77,8 +77,12 @@ export class GameInterface extends MainEntitie {
   }
 
   drawProgressLine() {
-    const currentTime = this.song?.currentTime || 0
-    const levelDuration = this.levelDuration || 0
+    const currentTime = (
+      this.song?.currentTime || 0
+    ) - (this.level?.startFrom || 0)
+    const levelDuration = (
+      this.levelDuration || 0
+    ) - (this.level?.startFrom || 0)
 
     if (currentTime > 0) {
       const progress = currentTime / levelDuration
