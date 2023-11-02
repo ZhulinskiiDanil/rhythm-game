@@ -164,7 +164,7 @@ export class Gameplay extends MainEntitie {
 
   restart() {
     if (this.song && !this.isPlayed) {
-      this.song.currentTime = 0
+      this.song.currentTime = this.level?.startFrom || 0
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -195,7 +195,7 @@ export class Gameplay extends MainEntitie {
         this.song.play()
 
         if (fromZero) {
-          this.song.currentTime = 0
+          this.song.currentTime = this.level?.startFrom || 0
         }
   
         const mousedown = () => console.log(this.song?.currentTime)
