@@ -190,6 +190,7 @@ export class Gameplay extends MainEntitie {
     this.gameInterface.setCombo(this.combo)
     this.gameInterface.setPressedKeys(0)
     this.pressedKeys = 0
+    this.nextEventIndex = 0
 
     if (this.initialLevel) {
       this.setSpeed(this.initialLevel.speed)
