@@ -40,6 +40,7 @@ export class Gameplay extends MainEntitie {
   controller: Controller = new Controller(this.controllerVh)
   gameInterface: GameInterface = new GameInterface()
   level: Level | null = null
+  initialLevel: Level | null = null
   song: HTMLAudioElement | null = null
   combo: number = 0
   buttons: Button[] = []
@@ -71,7 +72,10 @@ export class Gameplay extends MainEntitie {
 
   initListeners() {
     eventEmitter.on('level', (newLevel: Level) => {
-      this.level = {...newLevel}
+      const stringifyedLevel = JSON.stringify(newLevel)
+
+      this.level = JSON.parse(stringifyedLevel)
+      this.initialLevel = JSON.parse(stringifyedLevel)
       this.gameInterface.setKeysCount(newLevel.buttons.length)
 
       if (newLevel) {
@@ -186,6 +190,10 @@ export class Gameplay extends MainEntitie {
     this.gameInterface.setCombo(this.combo)
     this.gameInterface.setPressedKeys(0)
     this.pressedKeys = 0
+
+    if (this.initialLevel) {
+      this.setSpeed(this.initialLevel.speed)
+    }
     
     if (this.level && !this.isPlayed && !this.isLose) {
       this.controller.ignorePressing = false
@@ -242,7 +250,6 @@ export class Gameplay extends MainEntitie {
       if (event.transition) {
         const { stopCalculate } = getSmoothValue(({ value }) => {
           this.setSpeed(value)
-          eventEmitter.emit('speed', value)
         }, {
           ...event.transition,
           fromTo: [level.speed, event.speed]
@@ -258,6 +265,7 @@ export class Gameplay extends MainEntitie {
   setSpeed(speed: number) {
     if (this.level) {
       this.level.speed = speed
+      eventEmitter.emit('speed', speed)
     }
   }
 
