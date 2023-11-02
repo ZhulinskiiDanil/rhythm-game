@@ -14,14 +14,14 @@ export class GameInterface extends MainEntitie {
   pressedKeys = 0
   font = { size: 16 }
   FPS = 0
-  initAt = new Date()
+  calcFPSAt = new Date()
   completedFrames = 0
   levelDuration = 0
 
   constructor() {
     super();
 
-    this.initAt = new Date()
+    this.calcFPSAt = new Date()
     setInterval(this.calcFPS.bind(this), 1000/60)
 
     const loop = () => {
@@ -29,10 +29,15 @@ export class GameInterface extends MainEntitie {
 
       requestAnimationFrame(loop.bind(this))
     }; loop()
+
+    setInterval(() => {
+      this.completedFrames = 0
+      this.calcFPSAt = new Date()
+    }, 1000)
   }
 
   calcFPS() {
-    const dateDiff = +new Date() - +this.initAt
+    const dateDiff = +new Date() - +this.calcFPSAt
     this.FPS = Math.floor(
       this.completedFrames / dateDiff * 1000 * 10
     ) / 10
