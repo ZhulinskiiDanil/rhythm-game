@@ -22,7 +22,7 @@ export class GameInterface extends MainEntitie {
     super();
 
     this.calcFPSAt = new Date()
-    setInterval(this.calcFPS.bind(this), 1000/60)
+    setInterval(this.calcFPS.bind(this), 200)
 
     const loop = () => {
       this.completedFrames++
