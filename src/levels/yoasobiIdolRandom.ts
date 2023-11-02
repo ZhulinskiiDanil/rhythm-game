@@ -333,7 +333,7 @@ export const yoasobiIdolRandom: Level = {
   name: 'Yoasobi Idol Random',
   columns: 4,
   songPath: '/tracks/yoasobi-idol.mp3',
-  speed: 1.5,
+  speed: 3,
   ignoreLose: false,
   startFrom: 0,
   buttons
