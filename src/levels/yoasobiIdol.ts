@@ -1,6 +1,7 @@
-import { Level } from "@/types";
+import { LevelButton } from "@/types";
+import { createLevel } from "@/common/funcs/createLevel";
 
-const buttons: Level["buttons"] = [
+const buttons: LevelButton[] = [
   { fromSecond: 0.701311, type: 'normal', column: 1 },
   { fromSecond: 0.88343, type: 'normal', column: 2 },
   { fromSecond: 1.071266, type: 'normal', column: 1 },
@@ -247,7 +248,7 @@ const buttons: Level["buttons"] = [
   { fromSecond: 53.075768, type: 'normal', column: 3 }
 ]
 
-export const yoasobiIdol: Level = {
+export const yoasobiIdol = createLevel({
   name: 'Yoasobi Idol',
   columns: 4,
   songPath: '/tracks/yoasobi-idol.mp3',
@@ -255,4 +256,4 @@ export const yoasobiIdol: Level = {
   ignoreLose: false,
   startFrom: 0,
   buttons
-}
+})

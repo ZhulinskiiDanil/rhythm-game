@@ -1,6 +1,7 @@
-import { Level } from "@/types";
+import { LevelButton } from "@/types";
+import { createLevel } from "@/common/funcs/createLevel";
 
-const buttons: Level['buttons'] = [
+const buttons: LevelButton[] = [
   { type: 'normal', fromSecond: 0.540703, column: 3 },
   { type: 'normal', fromSecond: 0.618212, column: 3 },
   { type: 'normal', fromSecond: 0.705971, column: 3 },
@@ -169,7 +170,7 @@ const buttons: Level['buttons'] = [
   { type: 'normal', fromSecond: 32.760815, column: 2 },
 ]
 
-export const SIDODGI_DUBOSHIT_808_PROBLEM: Level = {
+export const SIDODGI_DUBOSHIT_808_PROBLEM = createLevel({
   name: 'Сидоджи Дубоshit - 808 PROBLEM',
   columns: 4,
   songPath: '/tracks/Сидоджи Дубоshit - 808 PROBLEM.mp3',
@@ -177,4 +178,4 @@ export const SIDODGI_DUBOSHIT_808_PROBLEM: Level = {
   ignoreLose: false,
   startFrom: 0,
   buttons
-}
+})

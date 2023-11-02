@@ -1,8 +1,9 @@
-import { Level } from "@/types";
+import { LevelButton } from "@/types";
+import { createLevel } from "@/common/funcs/createLevel";
 
 const randomColumn = () => Math.floor(Math.random() * 4) + 1
 
-const buttons: Level['buttons'] = [
+const buttons: LevelButton[] = [
   { fromSecond: 0.656156, type: 'normal', column: randomColumn() },
   { fromSecond: 0.849743, type: 'normal', column: randomColumn() },
   { fromSecond: 1.036055, type: 'normal', column: randomColumn() },
@@ -329,7 +330,7 @@ const buttons: Level['buttons'] = [
   { fromSecond: 78.401253, type: 'normal', column: randomColumn() }
 ]
 
-export const yoasobiIdolRandom: Level = {
+export const yoasobiIdolRandom = createLevel({
   name: 'Yoasobi Idol Random',
   columns: 4,
   songPath: '/tracks/yoasobi-idol.mp3',
@@ -337,4 +338,4 @@ export const yoasobiIdolRandom: Level = {
   ignoreLose: false,
   startFrom: 0,
   buttons
-}
+})

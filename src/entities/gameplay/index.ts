@@ -147,9 +147,13 @@ export class Gameplay extends MainEntitie {
     eventEmitter.on('controllerKeyDown', (
       data: ControllerButtonData
     ) => {
+      const columns = this.level?.columns || 1
       const currentTime = this.song?.currentTime || 0
-
-      for (let button of this.buttons) {
+      const btnsSliceFromIndex = Math.max(this.pressedKeys - 1, 0)
+      const btnsSliceToIndex = btnsSliceFromIndex + columns
+      const buttons = this.buttons.slice(btnsSliceFromIndex, btnsSliceToIndex)
+      
+      for (let button of buttons) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
         const isVissible = this.y + this.height > 0
   

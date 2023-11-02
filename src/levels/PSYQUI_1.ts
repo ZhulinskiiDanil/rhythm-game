@@ -1,6 +1,7 @@
-import { Level } from "@/types";
+import { LevelButton } from "@/types";
+import { createLevel } from "@/common/funcs/createLevel";
 
-const buttons: Level['buttons'] = [
+const buttons: LevelButton[] = [
   { type: 'normal', fromSecond: 57.33, column: 1 },
   { type: 'hold', fromSecond: 57.33, toSecond: 58.16, column: 3 },
 
@@ -167,7 +168,7 @@ const buttons: Level['buttons'] = [
   { type: 'hold', fromSecond: 91.50, toSecond: 93.00, column: 3 },
 ];
 
-export const PSYQUI_1: Level = {
+export const PSYQUI_1 = createLevel({
   name: 'PSYQUI - ヒステリックナイトガール',
   columns: 4,
   songPath: '/tracks/PSYQUI - ヒステリックナイトガール (Awakening) (ft. SUCH).mp3',
@@ -193,4 +194,4 @@ export const PSYQUI_1: Level = {
       }
     }
   ]
-}
+})
