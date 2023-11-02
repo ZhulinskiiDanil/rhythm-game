@@ -43,14 +43,18 @@ export class Button extends MainEntitie {
       this.holdUp.call(this, controllerKey, keyUp)
     })
 
-    eventEmitter.on('play', () => {
-      this.isPressed = false
-      this.visibility = 1
-    })
+    eventEmitter.on('play', this.restore.bind(this))
 
     eventEmitter.on('level', (newLevel: Level) => {
       this.level = newLevel
     })
+  }
+
+  restore() {
+    this.isPressed = false
+    this.visibility = 1
+    this.holdedTime = 0
+    this.pressedAt = 0
   }
 
   holdUp(
