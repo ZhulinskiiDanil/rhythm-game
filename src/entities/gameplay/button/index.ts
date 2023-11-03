@@ -139,13 +139,13 @@ export class Button extends MainEntitie {
           )
           gradientFill.addColorStop(0, '#f7e152')
           gradientFill.addColorStop(1, 'transparent')
-
+          
           ctx.fillStyle = ''
           ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, canvas.height * .02)
 
           ctx.globalAlpha = .7
           ctx.fillStyle = gradient
-          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, holdFill.h)
+          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, Math.min(holdFill.h, hold.h))
         }
 
         ctx.restore()

@@ -251,20 +251,18 @@ export class Gameplay extends MainEntitie {
   }
 
   handleEvent(event: LevelEvent) {
-    const level = this.level
-
-    if (event?.speed && level?.speed) {
+    if (event?.speed && this.level?.speed) {
       if (event.transition) {
         const { stopCalculate } = getSmoothValue(({ value }) => {
           this.setSpeed(value)
         }, {
           ...event.transition,
-          fromTo: [level.speed, event.speed]
+          fromTo: [this.level.speed, event.speed]
         })
 
         this.lastEventStopTransitionFn = stopCalculate
       } else {
-        level.speed = event.speed
+        this.level.speed = event.speed
       }
     }
   }
