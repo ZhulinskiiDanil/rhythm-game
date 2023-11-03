@@ -59,6 +59,100 @@ export class Button extends MainEntitie {
     })
   }
 
+  draw(song: HTMLAudioElement | null) {
+    const { fromSecond, toSecond } = this.data
+    if (!this.song) this.song = song
+
+    if (this.isHolded) {
+      this.holdedTime = song?.currentTime || 0
+    }
+
+    if (this.level && song) {
+      this.collision()
+
+      const gap = canvas.width / this.level.columns
+      const padding = gap * .05
+      const w = gap - padding * 2
+      const h = this.getHeight()
+      const y = this.getYByTime(fromSecond, song.currentTime)
+      const x = (this.data.column - 1) *  gap + padding
+      
+      this.width = w
+      this.height = h
+      this.x = x
+      this.y = y
+
+      if (this.y + this.height > 0) {
+        ctx.save()
+
+        if (this.data.type === 'normal') {
+          ctx.globalAlpha = .75 * this.visibility
+        }
+
+        ctx.lineWidth = 2
+        ctx.strokeStyle = !this.isPressed ? this.fillStyle : '#dced5a'
+        ctx.fillStyle = !this.isPressed ? this.fillStyle : '#dced5a'
+        ctx.globalAlpha = .5
+        ctx.fillRect(x, y, w, h)
+
+        ctx.globalAlpha = 1
+        ctx.strokeRect(x, y, w, h)
+
+        // ctx.font = '12px Arial'
+        // ctx.fillStyle = 'white'
+        // ctx.textAlign = 'center'
+        // ctx.fillText(String(fromSecond), x + w / 2, y + h / 2 + 4)
+
+        ctx.restore()
+      }
+
+      if (this.data.type === 'hold' && toSecond) {
+        const yFrom = this.getYByTime(fromSecond, toSecond)
+        const yTo = this.getYByTime(toSecond, fromSecond)
+        const yOfPressedAt = this.getYByTime(this.pressedAt, this.pressedAt)
+        const yOfHoldTime = this.getYByTime(this.holdedTime, this.holdedTime)
+        const heightByTime = Math.abs(yFrom - yTo)
+        const hold = {
+          y: y - heightByTime,
+          h: heightByTime
+        }
+
+        ctx.save()
+        
+        const gradient = ctx.createLinearGradient(0, hold.y, 0, hold.y + hold.h)
+        gradient.addColorStop(0, '#ffd01a')
+        gradient.addColorStop(1, '#ff772a')
+
+        ctx.globalAlpha = .2
+        ctx.fillStyle = gradient
+        ctx.fillRect(x, hold.y, w, hold.h)
+
+        const holdFill = {
+          h: Math.abs(yOfPressedAt - yOfHoldTime),
+          y: hold.y + (hold.h - Math.abs(yOfPressedAt - yOfHoldTime))
+        }
+
+        if (holdFill.h > 0) {
+          const gradientFill = ctx.createLinearGradient(
+            0, holdFill.y,
+            0, Math.max(holdFill.y + holdFill.h, holdFill.y + 400)
+          )
+          gradientFill.addColorStop(0, '#f7e152')
+          gradientFill.addColorStop(1, 'transparent')
+
+          ctx.fillStyle = ''
+          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, canvas.height * .02)
+
+          ctx.globalAlpha = .7
+          ctx.fillStyle = gradient
+          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, holdFill.h)
+        }
+
+        ctx.restore()
+      }
+    }
+  }
+
   restore() {
     this.isPressed = false
     this.visibility = 1
@@ -121,84 +215,6 @@ export class Button extends MainEntitie {
     }
 
     return 0
-  }
-
-  draw(song: HTMLAudioElement | null) {
-    const { fromSecond, toSecond } = this.data
-    if (!this.song) this.song = song
-
-    if (this.isHolded) {
-      this.holdedTime = song?.currentTime || 0
-    }
-
-    if (this.level && song) {
-      this.collision()
-
-      const gap = canvas.width / this.level.columns
-      const padding = gap * .05
-      const w = gap - padding * 2
-      const h = this.getHeight()
-      const y = this.getYByTime(fromSecond, song.currentTime)
-      const x = (this.data.column - 1) *  gap + padding
-      
-      this.width = w
-      this.height = h
-      this.x = x
-      this.y = y
-
-      if (this.y + this.height > 0) {
-        ctx.save()
-
-        ctx.globalAlpha = .75 * this.visibility
-        ctx.fillStyle = !this.isPressed ? this.fillStyle : 'lightgreen'
-        ctx.fillRect(x, y, w, h)
-  
-        ctx.font = '12px Arial'
-        ctx.fillStyle = 'white'
-        ctx.textAlign = 'center'
-        ctx.fillText(String(fromSecond), x + w / 2, y + h / 2 + 4)
-
-        ctx.restore()
-      }
-
-      if (this.data.type === 'hold' && toSecond) {
-        const yFrom = this.getYByTime(fromSecond, toSecond)
-        const yTo = this.getYByTime(toSecond, fromSecond)
-        const yOfPressedAt = this.getYByTime(this.pressedAt, this.pressedAt)
-        const yOfHoldTime = this.getYByTime(this.holdedTime, this.holdedTime)
-        const heightByTime = Math.abs(yFrom - yTo)
-        const hold = {
-          y: y - heightByTime,
-          h: heightByTime
-        }
-
-        ctx.save()
-        
-        const gradient = ctx.createLinearGradient(0, hold.y, 0, hold.y + hold.h)
-        gradient.addColorStop(0, '#ffd01a')
-        gradient.addColorStop(1, '#ff772a')
-
-        ctx.globalAlpha = .2
-        ctx.fillStyle = gradient
-        ctx.fillRect(x, hold.y, w, hold.h)
-
-        const holdFill = {
-          h: Math.abs(yOfPressedAt - yOfHoldTime),
-          y: hold.y + (hold.h - Math.abs(yOfPressedAt - yOfHoldTime))
-        }
-
-        const gradientFill = ctx.createLinearGradient(0, holdFill.y, 0, Math.min(holdFill.y + holdFill.h, holdFill.y + 400))
-        gradientFill.addColorStop(0, '#ff9045')
-        gradientFill.addColorStop(1, 'transparent')
-
-        ctx.filter = 'blur(10px)'
-        ctx.globalAlpha = .7
-        ctx.fillStyle = gradientFill
-        ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, Math.max(holdFill.h, hold.h))
-
-        ctx.restore()
-      }
-    }
   }
 
   collision() {

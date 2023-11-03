@@ -303,6 +303,50 @@ export class Gameplay extends MainEntitie {
     })
   }
 
+  drawColumnEffects() {
+    for (let key in this.columnsEffects) {
+      const effect = this.columnsEffects[key]
+
+      if (this.level) {
+        ctx.save()
+
+        const gap = this.width / this.level.columns
+        const x = gap * (effect.columnNumber - 1)
+        const y = 0
+        const w = gap
+        const h = canvas.height
+        const initialOpacity = .2
+
+        ctx.globalAlpha = initialOpacity * effect.opacity
+
+        if (effect.type === 'error') {
+          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          gradient.addColorStop(0, "transparent");
+          gradient.addColorStop(1, "rgba(255, 118, 94, 1)");
+
+          ctx.fillStyle = gradient
+        } else {
+          const gradient = ctx.createLinearGradient(0, y, 0, y + h);
+          
+          if (effect.KDPS > 4) {
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(1, "rgba(160, 92, 255, .5)");
+          } else {
+            gradient.addColorStop(0, "transparent");
+            gradient.addColorStop(1, "rgba(152, 235, 52, .5)");
+          }
+
+          ctx.fillStyle = gradient
+        }
+
+        ctx.filter = `blur(${20 - 20 * effect.opacity}px)`
+        ctx.fillRect(x, y, w, h)
+
+        ctx.restore()
+      }
+    }
+  }
+
   updateKeydownCounter() {
     this.keydownCount++
   }
@@ -339,50 +383,6 @@ export class Gameplay extends MainEntitie {
     for (let button of this.buttons) {
       button.draw(this.song)
     }
-  }
-
-  drawColumnEffects() {
-    ctx.save()
-
-    for (let key in this.columnsEffects) {
-      const effect = this.columnsEffects[key]
-
-      if (this.level) {
-        const gap = this.width / this.level.columns
-        const x = gap * (effect.columnNumber - 1)
-        const y = 0
-        const w = gap
-        const h = canvas.height
-        const initialOpacity = .2
-
-        ctx.globalAlpha = initialOpacity * effect.opacity
-
-        if (effect.type === 'error') {
-          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-          gradient.addColorStop(0, "transparent");
-          gradient.addColorStop(1, "rgba(255, 118, 94, 1)");
-
-          ctx.fillStyle = gradient
-        } else {
-          const gradient = ctx.createLinearGradient(0, y, 0, y + h);
-          
-          if (effect.KDPS > 4) {
-            gradient.addColorStop(0, "transparent");
-            gradient.addColorStop(1, "rgba(160, 92, 255, .5)");
-          } else {
-            gradient.addColorStop(0, "transparent");
-            gradient.addColorStop(1, "rgba(152, 235, 52, .5)");
-          }
-
-          ctx.fillStyle = gradient
-          ctx.filter = `blur(${20 - 20 * effect.opacity}px)`
-        }
-
-        ctx.fillRect(x, y, w, h)
-      }
-    }
-
-    ctx.restore()
   }
 
   drawPlayText() {
