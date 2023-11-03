@@ -117,34 +117,26 @@ const buttons: LevelButton[] = [
   { type: 'normal', fromSecond: 87.06, column: 2 },
   { type: 'normal', fromSecond: 87.40, column: 3 },
 
-  { type: 'normal', fromSecond: 87.60, column: 1 },
+  { type: 'normal', fromSecond: 87.60, column: 2 },
   { type: 'normal', fromSecond: 87.80, column: 3 },
-
   { type: 'normal', fromSecond: 87.90, column: 4 },
   { type: 'normal', fromSecond: 88.00, column: 3 },
   { type: 'normal', fromSecond: 88.10, column: 2 },
-
   { type: 'normal', fromSecond: 88.20, column: 1 },
   { type: 'normal', fromSecond: 88.40, column: 3 },
-
   { type: 'normal', fromSecond: 88.50, column: 4 },
   { type: 'normal', fromSecond: 88.60, column: 3 },
   { type: 'normal', fromSecond: 88.70, column: 2 },
-
   { type: 'normal', fromSecond: 88.80, column: 1 },
   { type: 'normal', fromSecond: 89.00, column: 3 },
-
   { type: 'normal', fromSecond: 89.10, column: 4 },
   { type: 'normal', fromSecond: 89.20, column: 3 },
   { type: 'normal', fromSecond: 89.30, column: 2 },
-
   { type: 'normal', fromSecond: 89.40, column: 1 },
   { type: 'normal', fromSecond: 89.60, column: 3 },
-
   { type: 'normal', fromSecond: 89.70, column: 4 },
   { type: 'normal', fromSecond: 89.80, column: 3 },
   { type: 'normal', fromSecond: 89.90, column: 2 },
-
   { type: 'normal', fromSecond: 90.00, column: 1 },
   
   { type: 'normal', fromSecond: 90.40, column: 1 },
@@ -178,20 +170,54 @@ export const PSYQUI_1 = createLevel({
   buttons,
   events: [
     {
-      fromSecond: 54.50,
       speed: .5,
-      transition: {
-        duration: 2830,
-        timingFunction: "ease"
-      }
+      fromSecond: 54.50,
+      transition: { duration: 2830, timingFunction: "ease" }
     },
     {
-      fromSecond: 57.33,
       speed: 3,
-      transition: {
-        duration: 500,
-        timingFunction: "ease"
-      }
+      fromSecond: 57.33,
+      transition: { duration: 600, timingFunction: "ease" }
+    },
+    {
+      speed: 1,
+      fromSecond: 57.83,
+      transition: { duration: 1000, timingFunction: "ease" }
+    },
+    {
+      speed: 3,
+      fromSecond: 58.89,
+      transition: { duration: 600, timingFunction: "ease" }
+    },
+    {
+      speed: 1.5,
+      fromSecond: 59.29,
+      transition: { duration: 1000, timingFunction: "ease" }
+    },
+    {
+      speed: 3,
+      fromSecond: 60.37,
+      transition: { duration: 600, timingFunction: "ease" }
+    },
+    {
+      speed: 1,
+      fromSecond: 68.47,
+      transition: { duration: 1000, timingFunction: "ease" }
+    },
+    {
+      speed: 2,
+      fromSecond: 71.40,
+      transition: { duration: 4000, timingFunction: "ease" }
+    },
+    {
+      speed: 3,
+      fromSecond: 75.40,
+      transition: { duration: 5000, timingFunction: "ease" }
+    },
+    {
+      speed: 2.5,
+      fromSecond: 86.60,
+      transition: { duration: 1000, timingFunction: "ease" }
     }
   ]
 })
