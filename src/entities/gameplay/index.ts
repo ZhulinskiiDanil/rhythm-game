@@ -150,10 +150,17 @@ export class Gameplay extends MainEntitie {
       const columns = this.level?.columns || 1
       const currentTime = this.song?.currentTime || 0
       const btnsSliceFromIndex = Math.max(this.pressedKeys - 1, 0)
-      const btnsSliceToIndex = btnsSliceFromIndex + columns
-      const buttons = this.buttons.slice(btnsSliceFromIndex, btnsSliceToIndex)
-      
-      for (let button of buttons) {
+      const btnsSliceToIndex = btnsSliceFromIndex + columns * 2
+      const buttons = this.buttons.slice(btnsSliceFromIndex, btnsSliceToIndex).filter(btn => !btn.isPressed)
+      const closerButton = buttons.reduce((acc, elm) => (
+        acc.data.fromSecond < elm.data.fromSecond ? acc : elm
+      ), buttons[0])
+
+      const buttonsForCheck = buttons.filter(btn => (
+        btn.data.fromSecond - .004 <= closerButton.data.fromSecond
+      ))
+
+      for (let button of buttonsForCheck) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
         const isVissible = this.y + this.height > 0
   
