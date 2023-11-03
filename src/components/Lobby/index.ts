@@ -1,5 +1,4 @@
 import './index.css'
-import * as levels from '@/levels'
 
 // Types
 import { Level } from '@/types'
@@ -9,23 +8,25 @@ import { useDispatch } from '@/hooks/useDispatch'
 import { levelActions } from '@/store'
 
 const dispatch = useDispatch()
-const levelsList = Object.entries(levels).map(level => level[1])
 
 export class LevelComponent {
-  title: string = ''
-  percent: number = 0
+  title = ''
+  percent = 0
   data: Level | null = null
+  isActive = false
   onClick: () => void = () => {}
 
-  constructor({ title, data, percent, onClick }: {
-    title: string,
-    data: Level,
-    percent: number,
+  constructor({ title, data, percent, isActive, onClick }: {
+    title: string
+    data: Level
+    percent: number
+    isActive?: boolean
     onClick: () => void
   }) {
     this.title = title
     this.percent = percent
     this.data = data
+    this.isActive = !!isActive
 
     if (onClick instanceof Function) {
       this.onClick = onClick
@@ -36,6 +37,10 @@ export class LevelComponent {
     const level = document.createElement('div')
     level.addEventListener('click', this.onClick)
     level.classList.add('level')
+
+    if (this.isActive) {
+      level.classList.add('active')
+    }
 
     const levelDuration = (
       this.data?.buttons.reduce((acc, btn) => (
@@ -64,6 +69,19 @@ export class LevelComponent {
 export class Lobby {
   uuid = 'abbe7b4f-587a-4a99-8234-28b003016c88'
   selector = 'Lobby'
+  levels: LevelComponent[] = []
+  activeLevelIndex = 0
+  rendered = false
+
+  constructor() {
+    document.addEventListener('keydown', e => {
+      const activeLevel = this.levels.find(level => level.isActive)
+
+      if (e.code === 'Enter' && activeLevel) {
+        activeLevel.onClick()
+      }
+    })
+  }
 
   hide() {
     const elm = this.component()
@@ -81,21 +99,29 @@ export class Lobby {
 
   render() {
     const elm = this.element()
-    const levelsToRender = levelsList.map(level => (
-      new LevelComponent({
-        title: level.name,
-        data: level,
-        percent: 0,
-        onClick: () => {
-          dispatch(levelActions.setLevel({ level }))
-
-          this.hide()
-        }
-      })
-    ))
 
     if (elm) {
-      elm.replaceWith(this.levelsListElm(levelsToRender))
+      elm.replaceWith(this.levelsListElm(this.levels))
+    }
+
+    this.rendered = true
+  }
+
+  rerender() {
+    if (this.rendered) {
+      this.rerenderLevels()
+      this.remove()
+      this.render()
+    }
+  }
+
+  remove() {
+    const renderedComponent = document.querySelector('.levels')
+  
+    if (renderedComponent) {
+      renderedComponent.replaceWith(
+        document.createElement(this.selector)
+      )
     }
   }
 
@@ -103,10 +129,44 @@ export class Lobby {
     return document.querySelector(this.selector || '')
   }
 
+  rerenderLevels() {
+    this.levels.forEach((elm, index) => {
+      elm.isActive = this.activeLevelIndex === index
+    })
+  }
+
+  setLevels(levels: Level[]) {
+    this.levels = levels.map((level, index) => (
+      new LevelComponent({
+        title: level.name,
+        data: level,
+        percent: 0,
+        isActive: this.activeLevelIndex === index,
+        onClick: () => {
+          dispatch(levelActions.setLevel({ level }))
+
+          this.hide()
+        }
+      })
+    ))
+  }
+  
+  setActiveLevelIndex(index: number) {
+    if (index >= 0 && index < this.levels.length) {
+      this.activeLevelIndex = index
+      this.rerender()
+    }
+  }
+
   levelsListElm(levels: LevelComponent[]) {
     const levelsElm = document.createElement('div')
     levelsElm.setAttribute('data-uuid', this.uuid)
     levelsElm.classList.add('levels')
+
+    const title = document.createElement('h2')
+    title.classList.add('title')
+    title.innerText = `Официальные уровни (${levels.length})`
+    levelsElm.appendChild(title)
 
     for (let level of levels) {
       levelsElm.appendChild(level.element())
