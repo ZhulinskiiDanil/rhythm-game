@@ -97,6 +97,8 @@ export class Gameplay extends MainEntitie {
     })
 
     eventEmitter.on('lose', () => {
+      console.log(`%cGame Over`, `color: red; font-size: 2rem; font-weight: bold;`)
+
       if (!this.isLose && !this.level?.ignoreLose) {
         this.controller.ignorePressing = true
         this.isPlayed = false
@@ -163,6 +165,13 @@ export class Gameplay extends MainEntitie {
 
       let pressed = false
 
+      console.table({
+        key: useSelector(state => state.settings.controllers)[
+          data.keyIndex
+        ],
+        t: this.song?.currentTime || 0
+      })
+
       for (let button of buttonsForCheck) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
         const isVissible = this.y + this.height > 0
@@ -189,6 +198,8 @@ export class Gameplay extends MainEntitie {
   }
 
   restart() {
+    console.clear()
+    
     if (this.song && !this.isPlayed) {
       this.song.currentTime = this.level?.startFrom || 0
 
