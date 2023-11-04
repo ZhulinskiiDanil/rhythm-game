@@ -88,19 +88,16 @@ const buttons: LevelButton[] = [
   { type: 'normal', fromSecond: 13.60, column: 2 },
   { type: 'normal', fromSecond: 13.74, column: 3 },
   { type: 'normal', fromSecond: 13.88, column: 4 },
-  { type: 'normal', fromSecond: 14.00, column: 2 },
-  { type: 'normal', fromSecond: 14.18, column: 1 },
-  { type: 'normal', fromSecond: 14.32, column: 2 },
   
-  { type: 'normal', fromSecond: 14.42, column: 3 },
-  { type: 'normal', fromSecond: 14.48, column: 1 },
-  { type: 'normal', fromSecond: 14.54, column: 2 },
-  { type: 'normal', fromSecond: 14.60, column: 3 },
+  { type: 'normal', fromSecond: 14.42, column: 1 },
+  { type: 'normal', fromSecond: 14.48, column: 2 },
+  { type: 'normal', fromSecond: 14.54, column: 1 },
+  { type: 'normal', fromSecond: 14.60, column: 2 },
 
-  { type: 'normal', fromSecond: 14.74, column: 2 },
-  { type: 'normal', fromSecond: 14.80, column: 4 },
-  { type: 'normal', fromSecond: 14.86, column: 3 },
-  { type: 'normal', fromSecond: 14.92, column: 2 },
+  { type: 'normal', fromSecond: 14.74, column: 4 },
+  { type: 'normal', fromSecond: 14.80, column: 3 },
+  { type: 'normal', fromSecond: 14.86, column: 4 },
+  { type: 'normal', fromSecond: 14.92, column: 3 },
 ]
 
 export const TangerBike = createLevel({
@@ -111,6 +108,7 @@ export const TangerBike = createLevel({
   ignoreLose: false,
   buttons,
   events: [
+    { speed: 0, fromSecond: 0 },
     {
       speed: 3,
       fromSecond: 0,
