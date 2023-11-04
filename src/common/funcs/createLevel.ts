@@ -1,7 +1,13 @@
 import { Level } from "@/types";
 
-export function createLevel(data: Omit<Level, 'duration'>) {
-  const level: Level = { ...data, duration: 0 }
+type CreateLevelDTO = Omit<Level, 'duration' | 'id'>
+
+export function createLevel(data: CreateLevelDTO) {
+  const level: Level = {
+    ...data,
+    duration: 0,
+    id: self.crypto.randomUUID()
+  }
   
   level.buttons.sort((a, b) => a.fromSecond - b.fromSecond)
   level.duration = Math.floor(

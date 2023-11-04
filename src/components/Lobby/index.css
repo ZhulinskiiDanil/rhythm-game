@@ -17,6 +17,8 @@
 
   background: #141414;
   color: white;
+
+  scroll-behavior: smooth;
 }
 
 .levels.hidden {
@@ -46,14 +48,24 @@
   width: 100%;
   max-width: 600px;
   cursor: pointer;
+  opacity: .5;
+  scale: .9;
 
   border: 2px solid transparent;
-  transition: .3s ease;
+  transition: .3s ease .15s;
 }
 
-.levels .level.active {
+.levels:not(:has(.level:hover)) .level.active,
+.levels .level:hover {
+  scale: 1;
+  opacity: 1;
   border-color: #555;
   box-shadow: 0 0 5rem 0 rgba(83, 83, 83, 0.2);
+  transition: .1s ease .1s;
+}
+
+.levels .level:hover {
+  transition: .1s ease .0s;
 }
 
 .levels .level:hover {

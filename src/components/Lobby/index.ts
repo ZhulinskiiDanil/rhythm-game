@@ -37,6 +37,7 @@ export class LevelComponent {
     const level = document.createElement('div')
     level.addEventListener('click', this.onClick)
     level.classList.add('level')
+    level.setAttribute('data-id', String(this.data?.id))
 
     if (this.isActive) {
       level.classList.add('active')
@@ -104,8 +105,6 @@ export class Lobby {
   rerender() {
     if (this.rendered) {
       this.rerenderLevels()
-      this.remove()
-      this.render()
     }
   }
 
@@ -123,10 +122,38 @@ export class Lobby {
     return document.querySelector(this.selector || '')
   }
 
+  scrollTo(y: number) {
+    const component = this.component()
+  
+    if (component) {
+      component.scrollTop += y - window.innerHeight / 2
+    }
+  }
+
   rerenderLevels() {
+    const levelsDOM = document.querySelectorAll('.levels > .level')
+
     this.levels.forEach((elm, index) => {
       elm.isActive = this.activeLevelIndex === index
     })
+
+    if (levelsDOM) {
+      levelsDOM.forEach((level, index) => {
+        const levelData = this.levels[index]
+        const levelRect = level.getBoundingClientRect()
+        const y = levelRect.top + levelRect.height / 2
+
+        if (levelData.isActive) {
+          this.scrollTo(y)
+        }
+
+        if (levelData.isActive) {
+          level.classList.add('active')
+        } else {
+          level.classList.remove('active')
+        }
+      })
+    }
   }
 
   setLevels(levels: Level[]) {
