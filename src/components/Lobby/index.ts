@@ -42,19 +42,13 @@ export class LevelComponent {
       level.classList.add('active')
     }
 
-    const levelDuration = (
-      this.data?.buttons.reduce((acc, btn) => (
-        btn.fromSecond > acc ? btn.fromSecond : acc
-      ), 0) || 0
-    ) - (this.data?.startFrom || 0)
-
     level.innerHTML = `
       <div class="data">
         <div class="title">
           ${this.title}
         </div>
         <div class="duration">
-          Duration: ${Math.floor(levelDuration * 10) / 10}s
+          Duration: ${this.data?.duration}s
         </div>
       </div>
       <div class="percent">

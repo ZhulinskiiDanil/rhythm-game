@@ -23,4 +23,5 @@ export type Level = {
   speed: number
   buttons: LevelButton[]
   events?: LevelEvent[]
+  duration: number
 }
