@@ -97,7 +97,7 @@ export class Gameplay extends MainEntitie {
     })
 
     eventEmitter.on('lose', () => {
-      console.log(`%cGame Over`, `color: red; font-size: 2rem; font-weight: bold;`)
+      // console.log(`%cGame Over`, `color: red; font-size: 2rem; font-weight: bold;`)
 
       if (!this.isLose && !this.level?.ignoreLose) {
         this.controller.ignorePressing = true
@@ -165,12 +165,12 @@ export class Gameplay extends MainEntitie {
 
       let pressed = false
 
-      console.table({
-        key: useSelector(state => state.settings.controllers)[
-          data.keyIndex
-        ],
-        t: this.song?.currentTime || 0
-      })
+      // console.table({
+      //   key: useSelector(state => state.settings.controllers)[
+      //     data.keyIndex
+      //   ],
+      //   t: this.song?.currentTime || 0
+      // })
 
       for (let button of buttonsForCheck) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
