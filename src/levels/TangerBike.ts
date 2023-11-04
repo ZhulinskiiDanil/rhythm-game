@@ -98,13 +98,37 @@ const buttons: LevelButton[] = [
   { type: 'normal', fromSecond: 14.80, column: 3 },
   { type: 'normal', fromSecond: 14.86, column: 4 },
   { type: 'normal', fromSecond: 14.92, column: 3 },
+
+  { type: 'hold', fromSecond: 15.02, toSecond: 15.46, column: 2 },
+  { type: 'normal', fromSecond: 15.10, column: 3 },
+  { type: 'normal', fromSecond: 15.26, column: 1 },
+  { type: 'normal', fromSecond: 15.46, column: 3 },
+  { type: 'hold', fromSecond: 15.60, toSecond: 15.70, column: 1 },
+  { type: 'hold', fromSecond: 15.75, toSecond: 15.85, column: 2 },
+  { type: 'hold', fromSecond: 15.60, toSecond: 16.03, column: 4 },
+  { type: 'normal', fromSecond: 15.95, column: 1 },
+  { type: 'hold', fromSecond: 16.17, toSecond: 16.61, column: 3 },
+  
+  { type: 'normal', fromSecond: 16.80, column: 1 },
+
+  { type: 'normal', fromSecond: 16.95, column: 3 },
+  { type: 'normal', fromSecond: 17.05, column: 2 },
+
+  { type: 'normal', fromSecond: 17.44, column: 1 },
+  { type: 'normal', fromSecond: 17.54, column: 2 },
+  { type: 'normal', fromSecond: 17.74, column: 3 },
+  { type: 'normal', fromSecond: 17.84, column: 4 },
+  { type: 'normal', fromSecond: 17.95, column: 3 },
+  { type: 'normal', fromSecond: 18.05, column: 2 },
+  { type: 'normal', fromSecond: 18.15, column: 3 },
 ]
 
 export const TangerBike = createLevel({
   name: 'Tanger - BIKE',
   columns: 4,
   songPath: '/tracks/tanger-bike.mp3',
-  speed: 1,
+  speed: 1, // 1
+  startFrom: 0,
   ignoreLose: false,
   buttons,
   events: [
