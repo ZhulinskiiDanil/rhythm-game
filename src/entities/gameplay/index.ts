@@ -89,6 +89,7 @@ export class Gameplay extends MainEntitie {
         song.currentTime = newLevel.startFrom || 0
 
         this.song = song
+        this.controller.setSong(song)
         this.gameInterface.setSong(song)
         this.gameInterface.setLevel(newLevel)
         this.gameInterface.setCombo(this.combo)
@@ -160,10 +161,12 @@ export class Gameplay extends MainEntitie {
         btn.data.fromSecond - .004 <= closerButton.data.fromSecond
       ))
 
+      let pressed = false
+
       for (let button of buttonsForCheck) {
         const isCurrentColumn = data.keyIndex === button.data.column - 1
         const isVissible = this.y + this.height > 0
-  
+
         if (isCurrentColumn && isVissible) {
           const topCollision = currentTime + .100 > button.data.fromSecond
           const bottomCollision = button.y < canvas.height
@@ -171,13 +174,16 @@ export class Gameplay extends MainEntitie {
 
           if (collision && !button.isPressed) {
             button.press()
+            pressed = true
             eventEmitter.emit('controllerSuccessKeyDown', button.data.column)
             break;
-          } else if (!button.isPressed && bottomCollision) {
-            // emit "mistake", columnNumber
-            eventEmitter.emit('mistake', data.keyIndex + 1)
           }
         }
+      }
+
+      if (!pressed) {
+        // emit "mistake", columnNumber
+        eventEmitter.emit('mistake', data.keyIndex + 1)
       }
     })
   }

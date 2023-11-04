@@ -20,7 +20,7 @@ export class Button extends MainEntitie {
   })
   data: LevelButton
   song: HTMLAudioElement | null = null
-  fillStyle = '#ff8845'
+  fillStyle = 'rgb(255, 128, 38, .2)'
   paddingBottomVh: number = 0
   visibility = 1
 
@@ -89,14 +89,23 @@ export class Button extends MainEntitie {
           ctx.globalAlpha = .75 * this.visibility
         }
 
+        const radius = this.data.type === 'normal' ? 10 : [0, 0, 10, 10]
         ctx.lineWidth = 2
-        ctx.strokeStyle = !this.isPressed ? this.fillStyle : '#dced5a'
         ctx.fillStyle = !this.isPressed ? this.fillStyle : '#dced5a'
-        ctx.globalAlpha = .5
-        ctx.fillRect(x, y, w, h)
+        
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, radius)
+        ctx.fill();
 
-        ctx.globalAlpha = 1
-        ctx.strokeRect(x, y, w, h)
+        const fillStyleGradient = ctx.createLinearGradient(x, y, x + w, y + h)
+        fillStyleGradient.addColorStop(0, '#ff7247')
+        fillStyleGradient.addColorStop(1, '#ffbc47')
+
+        ctx.strokeStyle = !this.isPressed ? fillStyleGradient : '#dced5a'
+        
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, radius)
+        ctx.stroke();
 
         // ctx.font = '12px Arial'
         // ctx.fillStyle = 'white'
@@ -120,12 +129,14 @@ export class Button extends MainEntitie {
         ctx.save()
         
         const gradient = ctx.createLinearGradient(0, hold.y, 0, hold.y + hold.h)
-        gradient.addColorStop(0, '#ffd01a')
-        gradient.addColorStop(1, '#ff772a')
+        gradient.addColorStop(0, 'rgba(255, 171, 99, .3)')
+        gradient.addColorStop(1, 'rgba(255, 171, 99, .2)')
 
-        ctx.globalAlpha = .2
         ctx.fillStyle = gradient
-        ctx.fillRect(x, hold.y, w, hold.h)
+        
+        ctx.beginPath()
+        ctx.roundRect(x, hold.y, w, hold.h, [10, 10, 0, 0])
+        ctx.fill()
 
         const holdFill = {
           h: Math.abs(yOfPressedAt - yOfHoldTime),
@@ -135,17 +146,24 @@ export class Button extends MainEntitie {
         if (holdFill.h > 0) {
           const gradientFill = ctx.createLinearGradient(
             0, holdFill.y,
-            0, Math.max(holdFill.y + holdFill.h, holdFill.y + 400)
+            0, holdFill.y + holdFill.h
           )
-          gradientFill.addColorStop(0, '#f7e152')
-          gradientFill.addColorStop(1, 'transparent')
+          gradientFill.addColorStop(0, 'rgba(247, 151, 82, .8)')
+          gradientFill.addColorStop(1, 'rgba(247, 151, 82, .6)')
           
-          ctx.fillStyle = ''
-          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, canvas.height * .02)
+          ctx.globalAlpha = .5
+          ctx.fillStyle = gradientFill
 
-          ctx.globalAlpha = .7
-          ctx.fillStyle = gradient
-          ctx.fillRect(x, Math.max(holdFill.y, hold.y), w, Math.min(holdFill.h, hold.h))
+          ctx.beginPath()
+          ctx.roundRect(x, Math.max(holdFill.y, hold.y), w, canvas.height * .02, [10, 10, 0, 0])
+          ctx.fill()
+          
+          ctx.globalAlpha = 1
+          ctx.fillStyle = gradientFill
+        
+          ctx.beginPath()
+          ctx.roundRect(x, Math.max(holdFill.y, hold.y), w, Math.min(holdFill.h, hold.h), [10, 10, 0, 0])
+          ctx.fill()
         }
 
         ctx.restore()

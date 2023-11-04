@@ -1,4 +1,5 @@
-import { useSelector } from './../../../hooks/useSelector';
+import { AudioFrequency } from '@/common/classes/AudioFrequency';
+import { useSelector } from '@/hooks/useSelector';
 import { canvas, ctx } from "@/canvas";
 import { MainEntitie } from "@/entities/main";
 import { Level } from "@/types";
@@ -12,6 +13,8 @@ export class Controller extends MainEntitie {
   pressedKey: (typeof this.controlkeys[number] | null)[] = []
   level: null | Level = null
   ignorePressing: boolean = true
+  audioFrequency = new AudioFrequency()
+  song: HTMLAudioElement | null = null
 
   constructor(vh: number) {
     super();
@@ -90,9 +93,14 @@ export class Controller extends MainEntitie {
     })
   }
 
+  setSong(song: HTMLAudioElement) {
+    this.audioFrequency.setAudio(song)
+  }
+
   draw() {
     if (this.level) {
-      const h = canvas.height * .002 // vh
+      const songFrequency = this.audioFrequency.getSongFrequency()
+      const h = canvas.height * .003 // vh
       const w = canvas.width
       const x = 0
       const y = canvas.height - h - canvas.height * this.vh
@@ -113,6 +121,7 @@ export class Controller extends MainEntitie {
         ctx.save()
 
         ctx.globalAlpha = .2
+
         ctx.font = `200 ${fontSize}px sans-serif`
         ctx.fillStyle = 'white'
         ctx.textAlign = 'center'
@@ -133,9 +142,27 @@ export class Controller extends MainEntitie {
 
       ctx.save()
 
-      ctx.fillStyle = '#ffc187'
-      ctx.fillRect(x, y, w, h)
+      const padding = 20
 
+      ctx.fillStyle = '#ff953b'
+      ctx.beginPath()
+      ctx.roundRect(x + padding / 2, y, w - padding, h, 5)
+      ctx.fill()
+
+      ctx.restore()
+
+      const shadowHeight = canvas.height * songFrequency
+
+      const gradient = ctx.createLinearGradient(
+        0, canvas.height - shadowHeight, 0, canvas.height
+      )
+      gradient.addColorStop(0, 'transparent')
+      gradient.addColorStop(1, 'rgba(255, 150, 64, .2)')
+      
+      ctx.save()
+      ctx.globalAlpha = songFrequency * 2
+      ctx.fillStyle = gradient
+      ctx.fillRect(x, canvas.height - shadowHeight, w, shadowHeight)
       ctx.restore()
     }
   }
