@@ -57,12 +57,18 @@
 
 .levels .level:has(+ .level + .level.active),
 .levels .level.active + .level + .level {
+  margin-top: -1.2rem;
   opacity: .2;
   scale: .8;
 }
 
+.levels .level.active + .level + .level ~ .level {
+  margin-top: -2rem;
+}
+
 .levels .level:has(+ .level.active),
 .levels .level.active + .level {
+  margin-top: -.5rem;
   opacity: .5;
   scale: .9;
 }
