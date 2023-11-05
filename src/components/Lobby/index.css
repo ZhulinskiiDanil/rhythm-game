@@ -48,24 +48,32 @@
   width: 100%;
   max-width: 600px;
   cursor: pointer;
-  opacity: .5;
-  scale: .9;
+  opacity: .1;
+  scale: .7;
 
   border: 2px solid transparent;
-  transition: .3s ease .15s;
+  transition: .3s ease;
 }
 
-.levels:not(:has(.level:hover)) .level.active,
+.levels .level:has(+ .level + .level.active),
+.levels .level.active + .level + .level {
+  opacity: .2;
+  scale: .8;
+}
+
+.levels .level:has(+ .level.active),
+.levels .level.active + .level {
+  opacity: .5;
+  scale: .9;
+}
+
+.levels .level.active,
 .levels .level:hover {
   scale: 1;
   opacity: 1;
   border-color: #555;
   box-shadow: 0 0 5rem 0 rgba(83, 83, 83, 0.2);
-  transition: .1s ease .1s;
-}
-
-.levels .level:hover {
-  transition: .1s ease .0s;
+  transition: .1s ease;
 }
 
 .levels .level:hover {
